@@ -67,7 +67,7 @@ async def connect_to_wss(proxy_url, user_id):
 
 async def main():
     # TODO 修改user_id
-    _user_id = '0355d28d-bba9-46d3-a885-1fef3d97c36a'
+    _user_id = '2oWHDE7vLdgBLi0xXHGPEoeL5xc'
     
     # Load proxies from proxylist.txt and format them as socks5 or http URLs
     with open("proxylist.txt", "r") as f:
