@@ -16,12 +16,10 @@ async def connect_to_wss(proxy_url, user_id):
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
             }
             uri = "wss://proxy.wynd.network:4650/"
-            server_hostname = "proxy.wynd.network"
             proxy = Proxy.from_url(proxy_url)
 
-            # Set ssl=None to bypass SSL verification
-            async with proxy_connect(uri, proxy=proxy, ssl=None, server_hostname=server_hostname,
-                                     extra_headers=custom_headers) as websocket:
+            # Set ssl=None and remove server_hostname to bypass SSL verification
+            async with proxy_connect(uri, proxy=proxy, ssl=None, extra_headers=custom_headers) as websocket:
                 async def send_ping():
                     while True:
                         send_message = json.dumps(
