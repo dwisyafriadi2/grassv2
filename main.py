@@ -1,12 +1,10 @@
 import asyncio
 import random
-import ssl
 import json
 import time
 import uuid
 from loguru import logger
 from websockets_proxy import Proxy, proxy_connect
-
 
 async def connect_to_wss(proxy_url, user_id):
     device_id = str(uuid.uuid3(uuid.NAMESPACE_DNS, proxy_url))
@@ -17,13 +15,12 @@ async def connect_to_wss(proxy_url, user_id):
             custom_headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
             }
-            ssl_context = ssl.create_default_context()
-            ssl_context.check_hostname = False
-            ssl_context.verify_mode = ssl.CERT_NONE
             uri = "wss://proxy.wynd.network:4650/"
             server_hostname = "proxy.wynd.network"
             proxy = Proxy.from_url(proxy_url)
-            async with proxy_connect(uri, proxy=proxy, ssl=ssl_context, server_hostname=server_hostname,
+
+            # Set ssl=None to bypass SSL verification
+            async with proxy_connect(uri, proxy=proxy, ssl=None, server_hostname=server_hostname,
                                      extra_headers=custom_headers) as websocket:
                 async def send_ping():
                     while True:
@@ -84,5 +81,5 @@ async def main():
 
 
 if __name__ == '__main__':
-    # 运行主函数
+    # Run the main function
     asyncio.run(main())
